@@ -32,5 +32,14 @@ This is an ASP.NET Core Web API backend for portfolio/profile data.
   - `ConnectionStrings__DefaultConnection`
 - Do not store real DB password in committed appsettings files.
 
+## Deploy With Docker (Render)
+1. In Render, create a new **Web Service** from this repository.
+2. Choose **Docker** as the environment.
+3. Set the service root directory to `backend` (where the Dockerfile is).
+4. Add environment variables:
+   - `ASPNETCORE_ENVIRONMENT=Production`
+   - `ConnectionStrings__DefaultConnection=<your real postgres connection string>`
+5. Deploy. Container listens on port `10000`.
+
 ## API + DB Docs
 - See [API_AND_DATABASE.md](./API_AND_DATABASE.md) for endpoint list and table mapping.
