@@ -1,0 +1,17 @@
+# Build artifacts
+**/bin/
+**/obj/
+
+# IDE files
+.vs/
+**/.vs/
+.vscode/
+
+# Logs and temp
+*.log
+Portfolio.Api/run.out.log
+Portfolio.Api/run.err.log
+
+# Local secrets
+**/secrets.json
+Portfolio.Api/appsettings.Local.json
