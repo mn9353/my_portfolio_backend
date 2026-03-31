@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.RateLimiting;
+using Npgsql;
 using Portfolio.Api.Data;
 using Portfolio.Api.Interfaces;
 using Portfolio.Api.Repositories;
@@ -16,6 +17,8 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets<Program>(optional: true);
 }
 
+var dbConnectionString = ResolveDbConnectionString(builder.Configuration);
+
 //
 // 1. Register services (DI container)
 //
@@ -27,10 +30,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Temporary open CORS policy for frontend integration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
+
 // Register EF Core DbContext with PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(dbConnectionString));
 
 // Register custom services and repositories
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
@@ -75,6 +86,9 @@ if (!app.Environment.IsDevelopment())
 // Apply rate limiting
 app.UseRateLimiter();
 
+// CORS
+app.UseCors("AllowAll");
+
 // Friendly root endpoint for browser hits.
 if (app.Environment.IsDevelopment())
 {
@@ -89,3 +103,64 @@ else
 app.MapControllers();
 
 app.Run();
+
+static string ResolveDbConnectionString(IConfiguration configuration)
+{
+    var raw = configuration.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrWhiteSpace(raw))
+    {
+        raw = configuration["DATABASE_URL"];
+    }
+
+    if (string.IsNullOrWhiteSpace(raw))
+    {
+        throw new InvalidOperationException(
+            "Database connection string is missing. Set ConnectionStrings:DefaultConnection or DATABASE_URL.");
+    }
+
+    if (raw.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+        raw.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+    {
+        return ConvertPostgresUrlToNpgsql(raw);
+    }
+
+    return raw;
+}
+
+static string ConvertPostgresUrlToNpgsql(string url)
+{
+    var uri = new Uri(url);
+    var dbName = uri.AbsolutePath.Trim('/');
+    var userParts = uri.UserInfo.Split(':', 2, StringSplitOptions.None);
+
+    var csb = new NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Port = uri.IsDefaultPort ? 5432 : uri.Port,
+        Database = string.IsNullOrWhiteSpace(dbName) ? "postgres" : Uri.UnescapeDataString(dbName),
+        Username = userParts.Length > 0 ? Uri.UnescapeDataString(userParts[0]) : string.Empty,
+        Password = userParts.Length > 1 ? Uri.UnescapeDataString(userParts[1]) : string.Empty
+    };
+
+    var query = uri.Query.TrimStart('?');
+    if (!string.IsNullOrWhiteSpace(query))
+    {
+        foreach (var segment in query.Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var pair = segment.Split('=', 2, StringSplitOptions.None);
+            var key = Uri.UnescapeDataString(pair[0]);
+            var value = pair.Length > 1 ? Uri.UnescapeDataString(pair[1]) : string.Empty;
+
+            try
+            {
+                csb[key] = value;
+            }
+            catch (ArgumentException)
+            {
+                // Ignore unknown query options.
+            }
+        }
+    }
+
+    return csb.ConnectionString;
+}
