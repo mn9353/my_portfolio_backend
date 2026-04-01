@@ -46,8 +46,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register custom services and repositories
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<ISectionRepository, SectionRepository>();
+builder.Services.AddScoped<ITranslationRepository, TranslationRepository>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<ISectionService, SectionService>();
+builder.Services.AddScoped<ITranslationService, TranslationService>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
 
 // In-memory caching
 builder.Services.AddMemoryCache();

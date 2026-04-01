@@ -16,6 +16,7 @@ namespace Portfolio.Api.Data
         public DbSet<Portfolios> PortfoliosTable { get; set; }
         public DbSet<Sections> SectionsTable { get; set; }
         public DbSet<Translations> TranslationTable { get; set; }
+        public DbSet<LanguageList> LanguageListTable { get; set; }
         public DbSet<Projects> ProjectTable { get; set; }
         public DbSet<Experiences> ExperiencesTable { get; set; }
         public DbSet<Education> EducationTable { get; set; }

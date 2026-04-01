@@ -16,6 +16,12 @@ namespace Portfolio.Api.Models.Entities
         [Column("short_form")]
         public string? ShortForm { get; set; }
 
+        [Column("open_to_work")]
+        public bool OpenToWork { get; set; }
+
+        [Column("open_to_work_text")]
+        public string? OpenToWorkDescription { get; set; }
+
         [Column("role")]
         public string? Role { get; set; }
 

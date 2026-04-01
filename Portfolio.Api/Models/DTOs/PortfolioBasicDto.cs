@@ -9,6 +9,8 @@ namespace Portfolio.Api.Models.DTOs
         public string? ShortForm { get; set; }
 
         public string? Role { get; set; }
+        public bool OpenToWork { get; set; }
+        public string? OpenToWorkDescription { get; set; }
 
         public string? Headline { get; set; }
 

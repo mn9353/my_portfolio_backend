@@ -25,6 +25,8 @@ namespace Portfolio.Api.Repositories
                     FullName = p.FullName,
                     ShortForm = p.ShortForm,
                     Role = p.Role,
+                    OpenToWork = p.OpenToWork,
+                    OpenToWorkDescription = p.OpenToWorkDescription,
                     Headline = p.Headline,
                     Subheadline = p.Subheadline,
                     AboutMe = p.AboutMe,
