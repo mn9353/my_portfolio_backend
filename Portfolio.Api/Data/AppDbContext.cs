@@ -57,6 +57,10 @@ namespace Portfolio.Api.Data
                 .Metadata.SetValueComparer(technologyListComparer);
 
             modelBuilder.Entity<Experiences>()
+                .Property(entity => entity.DetailedDescription)
+                .HasColumnType("text[]");
+
+            modelBuilder.Entity<Experiences>()
                 .Property(entity => entity.TechnologiesUsed)
                 .HasColumnType("jsonb")
                 .HasConversion(technologyListConverter)

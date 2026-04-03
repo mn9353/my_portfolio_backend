@@ -23,7 +23,7 @@ namespace Portfolio.Api.Models.Entities
         public string? ShortDescription { get; set; }
 
         [Column("detailed_description")]
-        public string? DetailedDescription { get; set; }
+        public List<string>? DetailedDescription { get; set; }
 
         [Column("technologies_used")]
         public List<TechnologyItem>? TechnologiesUsed { get; set; }
