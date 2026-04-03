@@ -16,6 +16,9 @@ namespace Portfolio.Api.Models.Entities
         [Column("company_name")]
         public string CompanyName { get; set; } = string.Empty;
 
+        [Column("company_logo")]
+        public string? CompanyLogo { get; set; }
+
         [Column("role")]
         public string Role { get; set; } = string.Empty;
 
