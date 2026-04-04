@@ -14,7 +14,7 @@ namespace Portfolio.Api.Models.Entities
         public long PortfolioId { get; set; }
 
         [Column("section_key")]
-        public string SectionKey { get; set; } = string.Empty;
+        public string? SectionKey { get; set; }
 
         [Column("title")]
         public string? Title { get; set; }
@@ -35,18 +35,18 @@ namespace Portfolio.Api.Models.Entities
         public string? SectionType { get; set; }
 
         [Column("display_order")]
-        public int DisplayOrder { get; set; }
+        public int? DisplayOrder { get; set; }
 
         [Column("is_visible")]
-        public bool IsVisible { get; set; }
+        public bool? IsVisible { get; set; }
 
         [Column("background_style")]
         public string? BackgroundStyle { get; set; }
 
         [Column("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [Column("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }
