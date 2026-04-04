@@ -25,6 +25,12 @@ namespace Portfolio.Api.Models.Entities
         [Column("role")]
         public string? Role { get; set; }
 
+        [Column("total_experience")]
+        public float? TotalExperience { get; set; }
+
+        [Column("current_company")]
+        public string? CurrentCompany { get; set; }
+
         [Column("headline")]
         public string? Headline { get; set; }
 
