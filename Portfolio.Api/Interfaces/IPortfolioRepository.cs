@@ -7,6 +7,7 @@ namespace Portfolio.Api.Interfaces
     {
         Task<PortfolioBasicDto?> GetPortfolioBasicAsync(long portfolioId);
         Task<List<Projects>> GetProjectsAsync(long portfolioId);
+        Task<ProjectFullDetailsDto?> GetProjectDetailsByProjectIdAsync(long projectId);
         Task<List<Experiences>> GetExperiencesAsync(long portfolioId);
         Task<List<Education>> GetEducationAsync(long portfolioId);
         Task<List<Skills>> GetSkillsAsync(long portfolioId);

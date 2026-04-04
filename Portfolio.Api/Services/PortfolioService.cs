@@ -21,6 +21,9 @@ namespace Portfolio.Api.Services
         public async Task<List<Projects>> GetProjectsAsync(long portfolioId) =>
             await _portfolioRepository.GetProjectsAsync(portfolioId);
 
+        public async Task<ProjectFullDetailsDto?> GetProjectDetailsByProjectIdAsync(long projectId) =>
+            await _portfolioRepository.GetProjectDetailsByProjectIdAsync(projectId);
+
         public async Task<List<Experiences>> GetExperiencesAsync(long portfolioId) =>
             await _portfolioRepository.GetExperiencesAsync(portfolioId);
 

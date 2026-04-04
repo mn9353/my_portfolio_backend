@@ -25,6 +25,10 @@ namespace Portfolio.Api.Data
         public DbSet<Achievements> AchievementsTable { get; set; }
         public DbSet<SocialLinks> SocialLinksTable { get; set; }
         public DbSet<Testimonials> TestimonialsTable { get; set; }
+        public DbSet<ProjectDetails> ProjectDetailsTable { get; set; }
+        public DbSet<ProjectDetailPoints> ProjectDetailPointsTable { get; set; }
+        public DbSet<ProjectMedia> ProjectMediaTable { get; set; }
+        public DbSet<ProjectLinks> ProjectLinksTable { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

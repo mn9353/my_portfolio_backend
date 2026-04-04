@@ -32,6 +32,16 @@ namespace Portfolio.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("project-details/{projectId}")]
+        public async Task<IActionResult> GetProjectDetails(long projectId)
+        {
+            var result = await _portfolioService.GetProjectDetailsByProjectIdAsync(projectId);
+            if (result == null)
+                return NotFound($"Project with ID {projectId} not found.");
+
+            return Ok(result);
+        }
+
         [HttpGet("experiences/{portfolioId}")]
         public async Task<IActionResult> GetExperiences(long portfolioId)
         {
